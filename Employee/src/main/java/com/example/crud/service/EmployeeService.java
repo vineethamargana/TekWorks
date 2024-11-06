@@ -23,14 +23,13 @@ public class EmployeeService {
 	}
 	
 	 public Employee getEmployeeById(int id) {
-	        return employeeRepo.findById(id)
-	            .orElseThrow(() -> new EmployeeNotFoundException("Employee not found with id: " + id));
+	        return employeeRepo.findById(id).orElseThrow(() -> new EmployeeNotFoundException("Employee not found with id: " + id));
 	    }
 
 	public Employee createEmployee(Employee emp)
 	{
 		if (employeeRepo.findById(emp.getId()).isPresent()) {
-            throw new ExceptionAlreadyExistsException("Employee already exists with ID: " + employee.getId());
+            throw new ExceptionAlreadyExistsException("Employee already exists with ID: " + emp.getId());
         }
         return employeeRepo.save(emp);
 	}

@@ -1,13 +1,13 @@
-package com.springboot.loginpage;
+package com.example.ral;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class LoginpageApplication {
+public class RegisterandLoginApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(LoginpageApplication.class, args);
+		SpringApplication.run(RegisterandLoginApplication.class, args);
 		System.out.println("started");
 	}
 
