@@ -24,12 +24,12 @@ public class StudentController {
 	StudentRepo studentrepo;
 	
 	@PostMapping("/api/students")
-	public  ResponseEntity<Student> saveStudent(@RequestBody Student student) //@requestbody is to ensures it is mandatory
+	public  ResponseEntity<String> saveStudent(@RequestBody Student student) //@requestbody is to ensures it is mandatory
 	{
-		return new ResponseEntity<>(studentrepo.save(student),HttpStatus.CREATED); //save the data to database
+		studentrepo.save(student);
+		String s = "success";
+		return new ResponseEntity<>(s,HttpStatus.CREATED); //save the data to database
 	}
-	
-	
 	
 	@GetMapping("/api/students")
 	public ResponseEntity<List<Student>> getStudents()

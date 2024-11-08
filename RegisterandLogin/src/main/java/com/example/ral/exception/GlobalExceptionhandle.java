@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class GlobalExceptionhandle {
 	
 	@ExceptionHandler(UserAlreadyExistException.class)
-    public ResponseEntity<String> handleUserAlreadyExistException(UserAlreadyExistException exception) {
+       public ResponseEntity<String> handleUserAlreadyExistException(UserAlreadyExistException exception) {
         // Return the exception message with the Conflict status (409)
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.CONFLICT);
     }

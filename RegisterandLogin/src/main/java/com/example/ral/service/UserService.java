@@ -27,8 +27,8 @@ public class UserService {
 		}
 		else
 		{
-//			String hashedPassword = passwordEncoder.encode(user.getPassword());
-//			user.setPassword(hashedPassword);
+			String hashedPassword = passwordEncoder.encode(user.getPassword());
+			user.setPassword(hashedPassword);
 			ur.save(user);
 			return "User registered successfully";
 		}

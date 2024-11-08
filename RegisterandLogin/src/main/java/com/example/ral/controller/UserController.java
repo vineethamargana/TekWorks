@@ -38,32 +38,13 @@ public class UserController {
 		    {
 		        return "Invalid password format";
 		    } 
-		    else {
+		    else 
+		    {
 		        return us.registerUser(user);
 		    }
-		    
-/*
-		if(!ValidationCode.emailValidation(user.getEmail()) && !ValidationCode.passwordValidation(user.getPassword()))
-		{
-		   return "please provide valid email and password";
-		}
-		else if(!ValidationCode.emailValidation(user.getEmail()))
-		{
-			return "Please provide a valid email address, e.g., username@example.com.\"";
-		}
-		else if(!ValidationCode.emailValidation(user.getPassword()))
-		{
-			return "invalid password format";
-		}
-		else
-		{
-		   return us.registerUser(user);
-		}
-*/		
-		
 	}
 	
-	@PostMapping("/login")
+	@GetMapping("/login")
 	public String loginuser(@RequestBody User user)
 	{
 		return us.loginUser(user);
