@@ -1,9 +1,10 @@
 package com.bank.sys.repo;
 
+import com.bank.sys.entity.Transaction;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.bank.sys.entity.Account;
+import java.util.List;
 
-public interface TransactionRepo extends JpaRepository<Account, Integer> {
-
+public interface TransactionRepo extends JpaRepository<Transaction, Integer> {
+    List<Transaction> findByAccountAccountNum(String accountNum);
 }

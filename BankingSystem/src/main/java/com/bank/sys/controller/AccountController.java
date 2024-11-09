@@ -1,30 +1,43 @@
 package com.bank.sys.controller;
 
+import com.bank.sys.dto.AccountDto;
+import com.bank.sys.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import com.bank.sys.entity.Account;
-import com.bank.sys.repo.AccountRepo;
-import com.bank.sys.service.AccountService;
-
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-
+import java.util.List;
 
 @RestController
-@RequestMapping("/api/banksys/users/Accounts")
+@RequestMapping("/api/accounts")
 public class AccountController {
 
-//	@Autowired
-//	AccountService as;
-//	
-//	@PostMapping("/createaccount")
-//	public String createAccount(@RequestBody Account account) 
-//	{
-//	       as.createAccount(account);	
-//	       return "Account created ";
-//	}
-	
+    @Autowired
+    private AccountService accountService;
+
+    @PostMapping
+    public ResponseEntity<AccountDto> createAccount(@RequestBody AccountDto accountDto) {
+        return ResponseEntity.ok(accountService.createAccount(accountDto));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<AccountDto> getAccountById(@PathVariable int id) {
+        return ResponseEntity.ok(accountService.getAccountById(id));
+    }
+
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<AccountDto>> getAccountsByUser(@PathVariable int userId) {
+        return ResponseEntity.ok(accountService.getAccountsByUser(userId));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<AccountDto> updateAccount(@PathVariable int id, @RequestBody AccountDto accountDto) {
+        return ResponseEntity.ok(accountService.updateAccount(id, accountDto));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteAccount(@PathVariable int id) {
+        accountService.deleteAccount(id);
+        return ResponseEntity.noContent().build();
+    }
 }

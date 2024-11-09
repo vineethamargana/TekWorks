@@ -1,81 +1,47 @@
 package com.bank.sys.service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import com.bank.sys.dto.UserDto;
 
+import com.bank.sys.entity.User;
+import com.bank.sys.repo.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.bank.sys.dto.UserDto;
-import com.bank.sys.entity.Account;
-import com.bank.sys.entity.User;
-import com.bank.sys.repo.UserRepo;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
-	
-	@Autowired
-	private UserRepo ur;
-	
-	private UserDto convertToDTO(User user) {
-//		List<Integer> accountIds = new ArrayList<>();
-//		for(Account account : user.getAccounts())
-//		{
-//			accountIds.add(account.getAccountid());
-//		}
-		UserDto newusdto = new UserDto(user.getId(),user.getUsername(),user.getEmail(),user.getUserType());
-		return newusdto;
-	}
 
-	public UserDto registerUser(User user) {
-	    // Save the user in the database
-	    User savedUser = ur.save(user);  // Assuming ur is your UserRepository
+    @Autowired
+    private UserRepo userRepository;
 
-	    // Map the saved user to a UserDto
-	    UserDto dto = new UserDto();
-	    dto.setEmail(savedUser.getEmail());
-	    dto.setUsername(savedUser.getUsername());
-	    dto.setUserType(savedUser.getUserType());
-	    dto.setId(savedUser.getId());
+    public UserDto createUser(User user1) {
+        User user = new User(user1.getUsername(), null, user1.getUserType(), user1.getEmail());
+        User savedUser = userRepository.save(user);
+        return new UserDto(savedUser.getId(), savedUser.getUsername(), savedUser.getEmail(), savedUser.getUserType());
+    }
 
-	    return dto;
-	}
+    public UserDto getUserById(int id) {
+        User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+        return new UserDto(user.getId(), user.getUsername(), user.getEmail(), user.getUserType());
+    }
 
-	public String loginUser(String username,String password) {
-		Optional<User> excistinguser = ur.findByusername(username);
-		if(excistinguser.isPresent())
-		{
-			if(excistinguser.get().getPassword().equals(password))
-			{
-				return "login success";
-			}
-			else
-			{
-				return "password mismatch";
-			}
-		} 
-		else
-		{
-			return "user not found";
-		}
-	}
+    public List<UserDto> getAllUsers() {
+        List<User> users = userRepository.findAll();
+        return users.stream().map(u -> new UserDto(u.getId(), u.getUsername(), u.getEmail(), u.getUserType())).collect(Collectors.toList());
+    }
 
-	public List<UserDto> getAllUsers() {
-		List<User> users = ur.findAll();
-		List<UserDto> userdtos = new ArrayList<>();
-		for(User user: users)
-		{
-			UserDto dto = convertToDTO(user);
-			userdtos.add(dto);
-		}
-		return userdtos;
-	}
+    public UserDto updateUser(int id, UserDto userDto) {
+        User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+        user.setUsername(userDto.getUsername());
+        user.setEmail(userDto.getEmail());
+        user.setUserType(userDto.getUserType());
+        User updatedUser = userRepository.save(user);
+        return new UserDto(updatedUser.getId(), updatedUser.getUsername(), updatedUser.getEmail(), updatedUser.getUserType());
+    }
 
-	public UserDto updateUser(String email, UserDto userDTO) {
-		
-	}
-
-		
-
+    public void deleteUser(int id) {
+        userRepository.deleteById(id);
+    }
 }
