@@ -3,7 +3,7 @@ package com.bank.sys.dto;
 import com.bank.sys.enums.AccountType;
 
 public class AccountDto {
-	private int accountid;
+//	private int accountid;
 	private String accountname;
 	private String accountNum;
 	private AccountType accountType;
@@ -12,21 +12,21 @@ public class AccountDto {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public AccountDto(int accountid, String accountname, String accountNum, AccountType accountType) {
+	public AccountDto( String accountname, String accountNum, AccountType accountType) {
 		super();
-		this.accountid = accountid;
+	//	this.accountid = accountid;
 		this.accountname = accountname;
 		this.accountNum = accountNum;
 		this.accountType = accountType;
 	}
 	
-	public int getAccountid() {
-		return accountid;
-	}
-	
-	public void setAccountid(int accountid) {
-		this.accountid = accountid;
-	}
+//	public int getAccountid() {
+//		return accountid;
+//	}
+//	
+//	public void setAccountid(int accountid) {
+//		this.accountid = accountid;
+//	}
 	
 	public String getAccountname() {
 		return accountname;
@@ -53,7 +53,7 @@ public class AccountDto {
 	}
 	@Override
 	public String toString() {
-		return "AccountDto [accountid=" + accountid + ", accountname=" + accountname + ", accountNum=" + accountNum
+		return "AccountDto [ accountname=" + accountname + ", accountNum=" + accountNum
 				+ ", accountType=" + accountType + "]";
 	}
 

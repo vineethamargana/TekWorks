@@ -35,15 +35,41 @@ public class User {
     @Enumerated(EnumType.STRING)
     private UserType userType; // User type (ADMIN or CUSTOMER)
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Account> accounts;
 
     
 
-    public User() {
+    /**
+	 * 
+	 */
+	public User() {
 		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public User(int id, String username, String password, UserType userType, String email) 
+    {
+		super();
+		this.id = id;
+		this.username = username;
+		this.password = password;
+		this.email = email;
+		this.userType = userType;
 		
 	}
+    
+	public User(int id, String username, String password,  UserType userType,String email, List<Account> accounts) {
+		super();
+		this.id = id;
+		this.username = username;
+		this.password = password;
+		this.email = email;
+		this.userType = userType;
+		this.accounts = accounts;
+	}
+
+
 
 	public User(String username, String password, UserType userType,String useremail) {
         this.username = username;

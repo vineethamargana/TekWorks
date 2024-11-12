@@ -15,13 +15,19 @@ public class UserService {
 
     @Autowired
     private UserRepo userRepository;
-
-    public UserDto createUser(User user1) {
-        User user = new User(user1.getUsername(), null, user1.getUserType(), user1.getEmail());
-        User savedUser = userRepository.save(user);
-        return new UserDto(savedUser.getId(), savedUser.getUsername(), savedUser.getEmail(), savedUser.getUserType());
+    
+    public UserDto convertToDTO(User user)
+    {
+    	UserDto dto = new UserDto(user.getId(),user.getUsername(),user.getEmail(),user.getUserType());
+    	return dto;
     }
-
+   
+    public UserDto createUser(User user) {
+        User savedUser = userRepository.save(user);
+       // return new UserDto(savedUser.getId(), savedUser.getUsername(), savedUser.getEmail(), savedUser.getUserType());
+       return convertToDTO(savedUser);
+    }
+   
     public UserDto getUserById(int id) {
         User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
         return new UserDto(user.getId(), user.getUsername(), user.getEmail(), user.getUserType());
