@@ -11,9 +11,9 @@ public interface Hotel_Service {
 	public String removeHotel(Long hid);
 	public Hotel_Model getHotelById(Long hid);
 	public List<HotelDTO> findAll();
-//	String selectHotel(Long cid, Long hotelid, int days);
-//	public String selectRoom(Long cid, Long hotelid, int days);
-	public String selectHotel(Long cid, Long hotelid, int days);
+	public String generatebill(Long cid, Long hotelid, int days);
+	//public Hotel_Model updateHotel(Hotel_Model hotel_Model);
+	public HotelDTO updateHotel(Long hotelid, HotelDTO hoteldto);
 	
 
 }

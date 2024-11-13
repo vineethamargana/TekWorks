@@ -41,8 +41,6 @@ public class Hotel_Model {
 		this.hotelAddress = hotelAddress;
 		this.hoteltype = hoteltype;
 		this.costperDay = costperDay;
-//		this.customer_Model = customer_Model;
-//		this.admin_Model = admin_Model;
 	}
 
 
@@ -96,22 +94,4 @@ public class Hotel_Model {
 	}
 
 
-//	public List<Customer_Model> getCustomer_Model() {
-//		return customer_Model;
-//	}
-//
-//
-//	public void setCustomer_Model(List<Customer_Model> customer_Model) {
-//		this.customer_Model = customer_Model;
-//	}
-//
-//
-//	public Admin_Model getAdmin_Model() {
-//		return admin_Model;
-//	}
-//
-//
-//	public void setAdmin_Model(Admin_Model admin_Model) {
-//		this.admin_Model = admin_Model;
-//	}
 }

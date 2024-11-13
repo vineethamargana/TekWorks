@@ -45,10 +45,14 @@ public class UserService {
         }
         return userDTOs;
     }
+    
+    
     public UserDTO findUserById(Long id) {
         User user = userRepository.findById(id).orElseThrow(() -> new AccountNotFoundException("User not found"));
         return new UserDTO(user.getId(), user.getName(), user.getEmail(), user.getPhn());
     }
+    
+    
     public boolean deleteUser(Long id) {
         if (!(userRepository.findById(id)!= null)) {
             throw new AccountNotFoundException("User not found");

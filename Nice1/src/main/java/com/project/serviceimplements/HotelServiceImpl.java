@@ -24,15 +24,6 @@ public class HotelServiceImpl implements Hotel_Service{
 	
 	@Autowired 
 	private CustomerRepository cr;
-	
-	
-	
-//	HashMap<String,Integer> obj=new HashMap();
-	
-//	 public HotelServiceImpl() {
-//	        obj.put("suite", 2000);  
-//	        obj.put("deluxe", 1500);  
-//	    }
 
 	 @Override
 	public Hotel_Model addHotel(Hotel_Model hotel_Model) {
@@ -65,7 +56,7 @@ public class HotelServiceImpl implements Hotel_Service{
 		
 	}
 	@Override
-	public String selectHotel(Long cid,Long hotelid,int days)
+	public String generatebill(Long cid,Long hotelid,int days)
 	{
 		Optional<Customer_Model> customer = cr.findById(cid);
 		Optional<Hotel_Model> hotel = hotel_Repository.findById(hotelid);
@@ -83,8 +74,16 @@ public class HotelServiceImpl implements Hotel_Service{
 		
 	}
 
-	
-
-	
-	
+	@Override
+	public HotelDTO updateHotel(Long hotelid, HotelDTO hoteldto)
+	{
+		Optional<Hotel_Model> hotel = hotel_Repository.findById(hotelid);
+        if(hotel.isPresent())
+        {
+         hotel.get().setHotelname(hoteldto.getHotelName());
+         hotel.get().setHotelAddress(hoteldto.getAddress());
+         hotel.get().setHotelid(hoteldto.getHotelId());
+         hotel_Repository.save(hotel);
+        }
+	}
 }

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -42,15 +43,22 @@ public class Hotel_Controller {
 		//return null;
 	}
 	
+	@PutMapping("/{hotelid}")
+	public ResponseEntity<Hotel_Model> updateHotel(@PathVariable Long hotelid,@RequestBody HotelDTO hoteldto)
+	{
+		HotelDTO savedHotel = hotel_Service.updateHotel(hotelid,hoteldto);
+        return new ResponseEntity<>(savedHotel, HttpStatus.CREATED);
+	}
+	
     @GetMapping("getallhotels")
     public ResponseEntity<List<HotelDTO>> getallHotels()
     {
 		return new ResponseEntity<>(hotel_Service.findAll(),HttpStatus.OK); // return all the data from the db
     }
 	
-	@PostMapping("/selecttype/{cid}/{hotelid}/{days}")
-	public String selectType(@PathVariable Long cid, @PathVariable Long hotelid, @PathVariable int days) {
-	return hotel_Service.selectHotel(cid,hotelid,days);
-	
-}
+	@PostMapping("/generatebill/{cid}/{hotelid}/{days}")
+	public String selectType(@PathVariable Long cid, @PathVariable Long hotelid, @PathVariable int days) 
+	{
+	   return hotel_Service.generatebill(cid,hotelid,days);	
+    }
 }
