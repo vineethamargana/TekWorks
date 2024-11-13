@@ -21,8 +21,13 @@ public class Hotel {
     private Food food;
 
     private String hotelType; 
+    
+    public Hotel() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
-    public Hotel(Long hotelId, String hotelName, String area, Food food, String hotelType) {
+	public Hotel(Long hotelId, String hotelName, String area, Food food, String hotelType) {
         this.hotelId = hotelId;
         this.hotelName = hotelName;
         this.area = area;

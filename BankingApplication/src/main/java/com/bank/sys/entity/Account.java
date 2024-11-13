@@ -1,5 +1,6 @@
 package com.bank.sys.entity;
 
+
 import java.util.List;
 
 import com.bank.sys.enums.AccountType;

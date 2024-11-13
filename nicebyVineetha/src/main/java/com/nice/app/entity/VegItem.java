@@ -15,15 +15,22 @@ public class VegItem {
     private String itemName;
     private double price;
 
-    @ManyToOne
-    @JoinColumn(name = "food_id")
-    private Food food;
+//    @ManyToOne
+//    @JoinColumn(name = "food_id")
+//    private Food food; //food is a reference attribute or relationship attributew
 
-    // Constructor
+    
+    public VegItem() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	// Constructor
     public VegItem(Long itemId, String itemName, double price) {
         this.itemId = itemId;
         this.itemName = itemName;
         this.price = price;
+      //  this.food = food;
     }
 
     // Getters and Setters
@@ -51,11 +58,11 @@ public class VegItem {
         this.price = price;
     }
 
-    public Food getFood() {
-        return food;
-    }
-
-    public void setFood(Food food) {
-        this.food = food;
-    }
+//    public Food getFood() {
+//        return food;
+//    }
+//
+//    public void setFood(Food food) {
+//        this.food = food;
+//    }
 }
