@@ -1,5 +1,7 @@
 package com.project.controller;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.HttpStatus;
@@ -23,9 +25,9 @@ public class Admin_Controller {
 	@Autowired
 	private Admin_Service admin_Service;
 	
-	@GetMapping("/{cid}")
-	public Admin_Model getall(@PathParam(value="cid") Long cid) {
-		return admin_Service.getAll(cid);
+	@GetMapping("/getroombill/{cid}")
+	public ResponseEntity<Map<String, Double>> get(@PathParam(value="cid") Long cid) {
+		return new ResponseEntity<Map<String, Double>> (admin_Service.getRoomBill(cid),HttpStatus.OK);
 	}
 	
 	

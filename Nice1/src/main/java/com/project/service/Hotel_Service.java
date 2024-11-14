@@ -1,5 +1,7 @@
 package com.project.service;
 
+
+import java.util.HashMap;
 import java.util.List;
 
 import com.project.dto.HotelDTO;
@@ -11,9 +13,9 @@ public interface Hotel_Service {
 	public String removeHotel(Long hid);
 	public Hotel_Model getHotelById(Long hid);
 	public List<HotelDTO> findAll();
-	public String generatebill(Long cid, Long hotelid, int days);
-	//public Hotel_Model updateHotel(Hotel_Model hotel_Model);
-	public HotelDTO updateHotel(Long hotelid, HotelDTO hoteldto);
-	
+	public String selectType(Long cid, Long hotelid,String roomtype, int days);
+	public HashMap<String, Double> foodOrder();
+	public String foodSelect(Long cid,String item,Integer quantity);
+	public Hotel_Model updateHotel(Long hid, Hotel_Model hotel_Model);
 
 }
