@@ -13,7 +13,7 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.Size;
-//import jakarta.persistence.UniqueConstraint;
+//import jakarta.persistence.UniqueConstraint
 
 @Entity
 public class Customer_Model {
