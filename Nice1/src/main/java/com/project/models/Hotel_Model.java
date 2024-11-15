@@ -2,6 +2,8 @@ package com.project.models;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.project.enums.FoodMenu;
 import com.project.enums.RoomTypes;
 
 import jakarta.persistence.Entity;
@@ -16,8 +18,9 @@ public class Hotel_Model {
 	private String hotelname;
 	private String hotelAddress;
 	
+	private List<FoodMenu> foodmenu;
 	private List<RoomTypes> roomtypes;
-
+	
 	private Integer roomBill;
 	private Double foodBill;
 
@@ -28,8 +31,6 @@ public class Hotel_Model {
 	private Admin_Model admin_Model;
 
 	public Hotel_Model() {
-		super();
-		// TODO Auto-generated constructor stub
 	}
  
  
@@ -70,25 +71,13 @@ public class Hotel_Model {
 		this.hotelAddress = hotelAddress;
 	}
 
-	public List<RoomTypes> getRoomtypes() {
-		return roomtypes;
-	}
-
-
-	public void setRoomtypes(List<RoomTypes> roomtypes) {
-		this.roomtypes = roomtypes;
-	}
-
-	
-
-
 	public Double getFoodBil() {
 		return foodBill;
 	}
 
 
-	public void setFoodBil(Double foodBil) {
-		this.foodBill = foodBil;
+	public void setFoodBil(Double foodBill) {
+		this.foodBill = foodBill;
 	}
 
 
@@ -99,6 +88,26 @@ public class Hotel_Model {
 
 	public void setRoomBill(Integer price) {
 		this.roomBill = price;
+	}
+
+
+	public List<FoodMenu> getFoodmenu() {
+		return foodmenu;
+	}
+
+
+	public void setFoodmenu(List<FoodMenu> foodmenu) {
+		this.foodmenu = foodmenu;
+	}
+
+
+	public List<RoomTypes> getRoomtypes() {
+		return roomtypes;
+	}
+
+
+	public void setRoomtypes(List<RoomTypes> roomtypes) {
+		this.roomtypes = roomtypes;
 	}
  
  

@@ -1,5 +1,6 @@
 package com.project.serviceimplements;
 
+
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,9 +10,11 @@ import org.springframework.stereotype.Service;
 
 import com.project.dto.ApiResponse;
 import com.project.exception.Mycustomexception;
-import com.project.models.Admin_Model;
+import com.project.models.Backup;
+import com.project.models.Customer_Model;
 import com.project.models.Hotel_Model;
 import com.project.repository.Admin_Repository;
+import com.project.repository.BackupRepository;
 import com.project.repository.CustomerRepository;
 import com.project.repository.Hotel_Repository;
 import com.project.service.Admin_Service;
@@ -27,9 +30,10 @@ public class AdminServiceImpl implements Admin_Service {
 	private Hotel_Repository hotel_Repository;
 
 	@Autowired
-	private CustomerRepository customerRespository;
-
+	private CustomerRepository customerRepository;
 	
+	@Autowired
+	private BackupRepository backupRepository;
 	@Override
 	public ResponseEntity<ApiResponse<String>> getRoomBill(Long cid) {
 	    Optional<Hotel_Model> optionalHotelModel = hotel_Repository.findById(cid);
@@ -78,4 +82,40 @@ public class AdminServiceImpl implements Admin_Service {
 		}
 
 	}
+
+public ResponseEntity<ApiResponse<String>>AmountPaid(Long cid,String cardnumber,String cvv) {
+	
+	Optional<Hotel_Model> optionalHotelModel = hotel_Repository.findById(cid);
+	Optional<Customer_Model> optionalCustomerModel = customerRepository.findById(cid);
+	Hotel_Model mod=optionalHotelModel.get();
+	Customer_Model cus = optionalCustomerModel.get();
+	Backup obj=new Backup();
+	 if (optionalHotelModel.isPresent()) {
+	       if(cardnumber.length()==12 && cvv.length()==3) {
+	    	   
+	    	   obj.setCid(cus.getCid());
+	    	   obj.setCname(cus.getCname());
+	    	   obj.setCnumber(cus.getCnumber());
+	    	   obj.setCadharno(cus.getCadharno());
+	    	   obj.setHotelid(mod.getHotelid());
+	    	   obj.setHotelname(mod.getHotelname());
+	    	   obj.setHotelAddress(mod.getHotelAddress());
+	    	   obj.setRoomBill(mod.getRoomBill());
+	    	   obj.setFoodBill(mod.getFoodBil());
+	    	  backupRepository.save(obj);
+	    	   ApiResponse<String> response = new ApiResponse<String>(HttpStatus.OK.value(),"Amount paid", null);
+				 return new ResponseEntity<>(response,HttpStatus.OK);
+       }
+	       else {
+	    	   throw new Mycustomexception("Invalid Card Details",HttpStatus.BAD_REQUEST);
+	       }
+	 }     
+	 else {
+		 throw new Mycustomexception("Payment failed",HttpStatus.BAD_REQUEST);
+	 }
+
 }
+}
+
+
+ 

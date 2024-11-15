@@ -117,4 +117,3 @@ public class Customer_Serviceimpl implements Customer_Service {
 	        return new ResponseEntity<>(response, HttpStatus.OK);
 	    }
 	}
-		

@@ -2,6 +2,7 @@ package com.project.controller;
 
 import java.util.List;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -11,56 +12,55 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.dto.ApiResponse;
 import com.project.dto.Customer_dto;
+import com.project.enums.FoodMenu;
+import com.project.enums.RoomTypes;
 import com.project.models.Customer_Model;
 import com.project.service.Customer_Service;
+import com.project.service.Hotel_Service;
 
 import io.swagger.v3.oas.annotations.Operation;
+
 import jakarta.websocket.server.PathParam;
 
 @RestController
 @RequestMapping("/Customer")
 public class Customer_Controller {
-
+	
 	@Autowired
 	private Customer_Service service;
+	
+	@Autowired
+	private Hotel_Service hotel_Service;	
 
-	@Operation(summary = "REGISTER CUSTOMER", description = "you need to enter your name,unique phone number,umique adhar number")
-	@PostMapping("/Register")
-	public ResponseEntity<ApiResponse<Customer_dto>> RegisterUser(@RequestBody Customer_Model customer) {
-		return service.Register(customer);
-	}
+	
+    @Operation(summary = "SELECT HOTEL", description = "This operation assigns the room to the customer based on specifications entered")
+    @PostMapping("/selecthotel/{cid}/{hotelid}/{roomtype}/{days}")
+    public ResponseEntity<ApiResponse<Double>> selectType(
+            @PathVariable Long cid,
+            @PathVariable Long hotelid,
+            @RequestParam List<RoomTypes> roomtype,
+            @PathVariable int days) {
+        return hotel_Service.selectType(cid, hotelid, roomtype, days);
+    }
 
-	@Operation(summary = "DELETE CUSTOMER", description = "This operation deletes the details of the specified customer")
-	@DeleteMapping("/delete/{id}")
-	public ResponseEntity<ApiResponse<String>> Deleting(@PathParam(value = "id") Long cid) 
-	{
-		return service.Delete(cid);
-	}
+//    @Operation(summary = "FOOD MENU", description = "This operation returns the food menu")
+//    @GetMapping("/foodMenu")
+//    public ResponseEntity<ApiResponse<HashMap<String, Double>>> foodMenu() 
+//    {
+//        return hotel_Service.foodOrder();
+//    }
 
-	@Operation(summary = "UPDATE CUSTOMER", description = "This operation updates the details of the specified customer")
-	@PutMapping("/Update/{cid}")
-	public  ResponseEntity<ApiResponse<Customer_Model>> UpdateUser(@PathParam(value = "cid") Long cid, @RequestBody Customer_Model model) 
-	{
-		
-		return service.Update(cid, model);
-	}
-
-	@Operation(summary = "GET ALL CUSTOMERS", description = "This operation returns the details of all the  customers")
-	@GetMapping("/getall")
-	public ResponseEntity<ApiResponse<List<Customer_dto>>> getallcustomers() 
-	{
-		return service.getcustomers();
-	}
-
-	@Operation(summary = "GET CUSTOMER BY ID", description = "This operation returns the details of the specified customer")
-	@GetMapping("/get/{cid}")
-	public ResponseEntity<ApiResponse<Customer_dto>> Getcustomer(@PathVariable Long cid) 
-	{
-		return service.Getcustomer(cid);
-	}
-
+    @Operation(summary = "FOOD SELECTION", description = "This operation adds the item into the list and generates the bill")
+    @PostMapping("/foodSelection/{cid}/{item}/{quantity}")
+    public ResponseEntity<ApiResponse<Double>> foodSelection(
+            @PathVariable Long cid,
+            @RequestParam List<FoodMenu> foodmen,
+            @PathVariable Integer quantity) {
+        return hotel_Service.foodSelect(cid, foodmen, quantity);
+    }
 }

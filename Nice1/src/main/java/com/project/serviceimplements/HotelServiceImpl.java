@@ -1,9 +1,11 @@
 package com.project.serviceimplements;
 
 import java.util.ArrayList;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import com.project.dto.ApiResponse;
 import com.project.dto.HotelDTO;
+import com.project.enums.FoodMenu;
 import com.project.enums.RoomTypes;
 import com.project.exception.Mycustomexception;
 import com.project.models.Customer_Model;
@@ -29,25 +32,26 @@ public class HotelServiceImpl implements Hotel_Service {
 	Hotel_Model hm = new Hotel_Model();
 
 	public HotelServiceImpl() {
+
 		obj.put(RoomTypes.Suite, 2000.0);
 		obj.put(RoomTypes.Delux, 1500.0 );
 		obj.put(RoomTypes.Non_delux, 30000.0);
 		obj.put(RoomTypes.Villah, 1500.0);
 
-		fc.put("chicken curry", 250.0);
-		fc.put("butter chicken ", 450.0);
-		fc.put("mutton curry", 550.0);
-		fc.put("fish curry", 250.0);
-		fc.put("prawns curry", 750.0);
-		fc.put("paneer curry", 150.0);
-		fc.put("mushroom curry", 150.0);
-		fc.put("chilli chicken ", 250.0);
-		fc.put("chicken lolipop", 250.0);
-		fc.put("chicken biryani", 350.0);
-		fc.put("chicken mandi", 750.0);
-		fc.put("mutton mandi", 950.0);
-		fc.put("mutton biryani", 550.0);
-		fc.put("gulabjam", 50.0);
+		fc.put("ChickenCurry", 250.0);
+		fc.put("butterChicken", 450.0);
+		fc.put("muttonCurry", 550.0);
+		fc.put("fishCurry", 250.0);
+		fc.put("prawnsCurry", 750.0);
+		fc.put("paneerCurry", 150.0);
+		fc.put("mushroomCurry", 150.0);
+		fc.put("chillichicken", 250.0);
+		fc.put("chickenlollipop", 250.0);
+		fc.put("chickenBiryani", 350.0);
+		fc.put("chickenMandi", 750.0);
+		fc.put("muttonMandi", 950.0);
+		fc.put("muttonBiryani", 550.0);
+		fc.put("Gulabjamun", 50.0);
 
 	}
 
@@ -58,21 +62,27 @@ public class HotelServiceImpl implements Hotel_Service {
 	
 
     @Override
-    public ResponseEntity<ApiResponse<Hotel_Model>> addHotel(HotelDTO hoteldto) {
-    	
-        boolean savedHotel = hotel_Repository.existsById(hoteldto.getHotelId());
-        if(savedHotel==false)
-        {
-          Hotel_Model addhotel = new Hotel_Model(hoteldto.getHotelId(), hoteldto.getHotelName(), hoteldto.getAddress());
-          ApiResponse<Hotel_Model> response = new ApiResponse<>( HttpStatus.CREATED.value(),"Hotel added successfully", addhotel);
+    public ResponseEntity<ApiResponse<HotelDTO>> addHotel(HotelDTO hoteldto) {
+
+        // Check if the hotel with the given ID already exists
+        boolean hotelExists = hotel_Repository.existsById(hoteldto.getHotelId());
         
-         return new ResponseEntity<>(response, HttpStatus.CREATED);
-        }
-        else
-        {
-        	 throw new Mycustomexception("Hotel with ID " + hoteldto.getHotelId() + "already exist", HttpStatus.CONFLICT);
+        if (!hotelExists) {
+            // Convert DTO to entity
+            Hotel_Model newHotel = new Hotel_Model(hoteldto.getHotelId(), hoteldto.getHotelName(), hoteldto.getAddress());
+
+            // Save the new hotel entity to the repository
+            hotel_Repository.save(newHotel);
+
+            // Prepare the response
+            ApiResponse<HotelDTO> response = new ApiResponse<>(HttpStatus.CREATED.value(), "Hotel added successfully", hoteldto);
+            return new ResponseEntity<>(response, HttpStatus.CREATED);
+        } else {
+            // Throw an exception if the hotel already exists
+            throw new Mycustomexception("Hotel with ID " + hoteldto.getHotelId() + " already exists", HttpStatus.CONFLICT);
         }
     }
+
 
     @Override
     public ResponseEntity<ApiResponse<String>> removeHotel(Long hotelid) {
@@ -138,29 +148,59 @@ public class HotelServiceImpl implements Hotel_Service {
             throw new Mycustomexception("Customer or Hotel not found", HttpStatus.NOT_FOUND);
         }
     }
+    
+    
 
-    public ResponseEntity<ApiResponse<String>> foodSelect(Long cid, String item, Integer quantity) {
-        Optional<Hotel_Model> optionalHm = hotel_Repository.findById(cid);
+	public ResponseEntity<ApiResponse<Double>> foodSelect(Long cid, List<FoodMenu> foodmen, Integer quantity) {
 
-        if (optionalHm.isPresent()) {
-            if (fc.containsKey(item)) {
-                Hotel_Model hm = optionalHm.get();
-                food_list.add(item);
-                Double itemCost = fc.get(item) * quantity;
-                Double currentFoodBill = hm.getFoodBil() != null ? hm.getFoodBil() : 0.0;
-                currentFoodBill += itemCost;
-                hm.setFoodBil(currentFoodBill);
-                hotel_Repository.save(hm);
+	    // Check if customer ID exists
+	    Optional<Hotel_Model> optionalHm = hotel_Repository.findById(cid);
 
-                ApiResponse<String> response = new ApiResponse<>( HttpStatus.OK.value(), "Total food bill updated: " + currentFoodBill);
-                return new ResponseEntity<>(response, HttpStatus.OK);
-            } else {
-                throw new Mycustomexception("Item not found", HttpStatus.NOT_FOUND);
-            }
-        } else {
-            throw new Mycustomexception("Invalid customer ID", HttpStatus.NOT_FOUND);
-        }
-    }
+	    if (optionalHm.isPresent()) {
+	        List<String> foodmenu = enumToString(foodmen);
+	        Hotel_Model hm = optionalHm.get();  // Get hotel model outside the loop to avoid redundancy
+	        
+	        for (String item : foodmenu) {
 
+	            // Check if the food item is available
+	            if (fc.containsKey(item)) {
+
+	                // Add item to the food list
+	                food_list.add(item);
+	                Double itemCost = fc.get(item) * quantity;
+
+	                // Update the food bill for the customer
+	                Double currentFoodBill = hm.getFoodBil() != null ? hm.getFoodBil() : 0.0;
+	                currentFoodBill += itemCost;
+	                hm.setFoodBil(currentFoodBill);
+	                
+	                // Save the updated model to the repository
+	    	        hotel_Repository.save(hm);
+	    	        ApiResponse<Double> response = new ApiResponse<>( HttpStatus.OK.value(), "Total food bill updated:  ",currentFoodBill );
+	                return new ResponseEntity<>(response, HttpStatus.OK);
+
+	            }
+	            else {
+	                throw new Mycustomexception("Item not found: " + item, HttpStatus.NOT_FOUND);
+	            }
+	        }  
+
+	    } else {
+	        throw new Mycustomexception("Invalid cid", HttpStatus.NOT_FOUND);
+	    }
+	    return null;
+	}
+
+	// Convert List<FoodMenu> to List<String>
+	public List<String> enumToString(List<FoodMenu> foodmenu) {
+	    // Convert each enum to its name (String) representation
+	    return foodmenu.stream()
+	                   .map(FoodMenu::name)
+	                   .collect(Collectors.toList());
+	}
+
+
+
+	
 
 }
