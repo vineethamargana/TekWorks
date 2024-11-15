@@ -1,6 +1,5 @@
 package com.project.exception;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,9 +10,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.context.request.WebRequest;
 
-import com.project.dto.ErrorDetail;
+import com.project.dto.ApiResponse;
 
 
 @ControllerAdvice
@@ -37,17 +35,18 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
 	
-
+	 // Custom exception handling
     @ExceptionHandler(Mycustomexception.class)
-    public ResponseEntity<ErrorDetail> handleMyCustomException(Mycustomexception ex) {
-        ErrorDetail errorDetail = new ErrorDetail(new Date(),ex.getMessage(),ex.getStatus().value());// Use the specific status from the exception
-        return new ResponseEntity<>(errorDetail, ex.getStatus());
+    public ResponseEntity<ApiResponse<String>> handleMyCustomException(Mycustomexception ex) {
+        ApiResponse<String> response = new ApiResponse<>(ex.getStatus().value(),ex.getMessage());
+        return new ResponseEntity<>(response, ex.getStatus());
     }
 
     // Global exception handler for other exceptions
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorDetail> handleGlobalException(Exception ex) {
-        ErrorDetail errorDetail = new ErrorDetail(new Date(),ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value());
-        return new ResponseEntity<>(errorDetail, HttpStatus.INTERNAL_SERVER_ERROR);
+    public ResponseEntity<ApiResponse<String>> handleGlobalException(Exception ex) {
+        ApiResponse<String> response = new ApiResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(),"An unexpected error occurred");
+        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
 }

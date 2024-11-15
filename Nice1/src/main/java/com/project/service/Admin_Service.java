@@ -1,12 +1,12 @@
 package com.project.service;
 
-import java.util.Map;
-
 import org.springframework.http.ResponseEntity;
 
-import com.project.models.Admin_Model;
+import com.project.dto.ApiResponse;
 
 public interface Admin_Service {
 
-	public  Map<String, Double> getRoomBill(Long cid);
+	public  ResponseEntity<ApiResponse<String>> getRoomBill(Long cid);
+	public ResponseEntity<ApiResponse<String>> getFoodBill(Long cid);
+	public ResponseEntity<ApiResponse<Double>> getTotalBill(Long cid);
 }

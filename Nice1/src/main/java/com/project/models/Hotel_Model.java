@@ -2,9 +2,9 @@ package com.project.models;
 
 import java.util.List;
 
+import com.project.enums.RoomTypes;
+
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
@@ -12,12 +12,12 @@ import jakarta.persistence.ManyToOne;
 @Entity
 public class Hotel_Model {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long hotelid;
 	private String hotelname;
 	private String hotelAddress;
-
 	
+	private List<RoomTypes> roomtypes;
+
 	private Integer roomBill;
 	private Double foodBill;
 
@@ -69,6 +69,18 @@ public class Hotel_Model {
 	public void setHotelAddress(String hotelAddress) {
 		this.hotelAddress = hotelAddress;
 	}
+
+	public List<RoomTypes> getRoomtypes() {
+		return roomtypes;
+	}
+
+
+	public void setRoomtypes(List<RoomTypes> roomtypes) {
+		this.roomtypes = roomtypes;
+	}
+
+	
+
 
 	public Double getFoodBil() {
 		return foodBill;

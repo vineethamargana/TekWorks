@@ -5,9 +5,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 class NiceApplicationTests {
-
-	@Test
-	void contextLoads() {
-	}
-
+@Test
+void contextLoads() {}
+	
+	
 }
