@@ -1,5 +1,7 @@
 package com.bank.sys.dto;
 
+import java.util.List;
+
 import com.bank.sys.enums.AccountType;
 
 public class AccountDTO {
@@ -7,7 +9,7 @@ public class AccountDTO {
 	    private String accountNumber;
 	    private Double balance;
 	    private Long userId;
-	    private AccountType accountType;
+	    private List<AccountType> accountType;
 	    private int pin;
 	    
 	    
@@ -33,10 +35,10 @@ public class AccountDTO {
 			return userId;
 		}
 		
-		public AccountType getAccountType() {
+		public List<AccountType> getAccountType() {
 			return accountType;
 		}
-		public void setAccountType(AccountType accountType) {
+		public void setAccountType(List<AccountType> accountType) {
 			this.accountType = accountType;
 		}
 		public void setUserId(Long userId) {
@@ -57,7 +59,7 @@ public class AccountDTO {
 		 * @param userId
 		 * @param accountType
 		 */
-		public AccountDTO(Long id, String accountNumber, Double balance, Long userId, AccountType accountType) {
+		public AccountDTO(Long id, String accountNumber, Double balance, Long userId, List<AccountType> accountType) {
 			super();
 			this.id = id;
 			this.accountNumber = accountNumber;
@@ -85,7 +87,7 @@ public class AccountDTO {
 			super();
 			// TODO Auto-generated constructor stub
 		}
-		public AccountDTO(Long id, String accountNumber, Double balance, AccountType accountType) {
+		public AccountDTO(Long id, String accountNumber, Double balance, List<AccountType> accountType) {
 			// TODO Auto-generated constructor stub
 			this.id = id;
 			this.accountNumber = accountNumber;

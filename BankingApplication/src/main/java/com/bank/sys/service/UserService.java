@@ -3,11 +3,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import com.bank.sys.dto.ApiResponse;
 import com.bank.sys.dto.UserDTO;
 import com.bank.sys.entity.User;
 import com.bank.sys.exceptions.AccountNotFoundException;
+import com.bank.sys.exceptions.MyCustomException;
 import com.bank.sys.repository.AccountRepository;
 import com.bank.sys.repository.UserRepository;
 
@@ -16,21 +19,22 @@ public class UserService {
 	@Autowired
 	 AccountRepository ar;
 	
-    private final UserRepository userRepository;
+	@Autowired
+    UserRepository userRepository;
 
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+	 public UserDTO createUser(UserDTO userDTO) {
+		    if (userRepository.existsByEmail(userDTO.getEmail())) {
+		        throw new MyCustomException("User already exists with email: " + userDTO.getEmail());
+		    }
+		    User user = new User();
+		    user.setName(userDTO.getName());
+		    user.setEmail(userDTO.getEmail());
+		    user.setPhn(userDTO.getPhn());
+		    user = userRepository.save(user);
 
-    public UserDTO createUser(UserDTO userDTO) 
-    {
-        User user = new User();
-        user.setName(userDTO.getName());
-        user.setEmail(userDTO.getEmail());
-        user.setPhn(userDTO.getPhn());
-        user = userRepository.save(user);
-        return new UserDTO(user.getId(), user.getName(), user.getEmail());
-    }
+		    return new UserDTO(user.getId(), user.getName(), user.getEmail(), user.getPhn());
+		}
+
 
     public List<UserDTO> getAllUsers() {
         List<User> users = userRepository.findAll(); // fetching all users
@@ -48,13 +52,13 @@ public class UserService {
     
     
     public UserDTO findUserById(Long id) {
-        User user = userRepository.findById(id).orElseThrow(() -> new AccountNotFoundException("User not found"));
+        User user = userRepository.findById(id).orElseThrow(() -> new MyCustomException("User not found"));
         return new UserDTO(user.getId(), user.getName(), user.getEmail(), user.getPhn());
     }
     
     
     public boolean deleteUser(Long id) {
-        if (!(userRepository.findById(id)!= null)) {
+        if ((userRepository.findById(id)== null)) {
             throw new AccountNotFoundException("User not found");
         }
         userRepository.deleteById(id);
@@ -62,7 +66,7 @@ public class UserService {
     }
 
     public UserDTO updateUser(Long id, UserDTO userDTO) {
-        User user = userRepository.findById(id).orElseThrow(() -> new AccountNotFoundException("User not found"));
+        User user = userRepository.findById(id).orElseThrow(() -> new MyCustomException("User not found"));
         user.setName(userDTO.getName());
         user.setEmail(userDTO.getEmail());
         user.setPhn(userDTO.getPhn());

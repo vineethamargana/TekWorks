@@ -26,7 +26,7 @@ public class Account {
     private Double balance;
     
     @Enumerated(EnumType.STRING)
-	private AccountType accountType; // like savings, current
+	private List<AccountType> accountType; // like savings, current
 	
 	@Column(nullable = false)
 	private int pinNumber;
@@ -80,11 +80,11 @@ public class Account {
     
 	
 	
-	public AccountType getAccountType() {
+	public List<AccountType> getAccountType() {
 		return accountType;
 	}
 
-	public void setAccountType(AccountType accountType) {
+	public void setAccountType(List<AccountType> accountType) {
 		this.accountType = accountType;
 	}
 
@@ -113,7 +113,7 @@ public class Account {
 	 * @param user
 	 * @param transactions
 	 */
-	public Account(Long id, String accountNumber, Double balance, AccountType accountType, int pinNumber, User user,
+	public Account(Long id, String accountNumber, Double balance, List<AccountType> accountType, int pinNumber, User user,
 			List<Transaction> transactions) {
 		super();
 		this.id = id;
