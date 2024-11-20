@@ -1,0 +1,55 @@
+How to install typescript:
+
+Step 1: Install Node.js
+
+A. Download Node.js:
+
+Visit the Node.js official website.
+Download the LTS (Long Term Support) version for better stability.
+
+B. Install Node.js:
+
+Run the downloaded installer.
+During installation:
+Check the option to add Node.js to your system PATH.
+Complete the setup.
+
+
+Step 2: Verify Node.js Installation
+
+Verify Node.js Installation
+After installation:
+
+Open a new terminal (Command Prompt, PowerShell, or any terminal).
+Run the following commands to check if Node.js and npm are installed:
+bash
+
+1.node --version
+o/p: v22.11.0
+
+2. npm --version
+o/p: 10.9.0
+
+possible error: 
+ File C:\Program Files\nodejs\npm.ps1 cannot be loaded because running scripts is disabled on this system. 
+For more
+information, see about_Execution_Policies at https:/go.microsoft.com/fwlink/?LinkID=135170.
+At line:1 char:1
++ npm --version
++ ~~~
+    + CategoryInfo          : SecurityError: (:) [], PSSecurityException
+    + FullyQualifiedErrorId : UnauthorizedAccess
+
+
+handling:
+1. command: powershell -ExecutionPolicy Bypass -Command "npm --version"
+ output: 10.9.0
+
+2. commnd: powershell -ExecutionPolicy Bypass -Command "npm install -g typescript"
+output: added 1 package in 4s
+
+3. command:  powershell -ExecutionPolicy Bypass -Command "tsc --version"
+output: Version 5.6.3
+
+
+then run the typescript files 
