@@ -1,0 +1,32 @@
+STEPS:
+--------
+1. create a folder with any name(TypeScriptwithSupabase )
+
+2. set the path cd  C:\Users\Vineetha\eclipse-workspace\TekWorks\Typescript\TypeScriptwithSupabase   
+
+3. npm init -y 
+   ->   This creates a package.json file with default settings, which is essential for managing project dependencies, scripts, and other configurations.  
+
+4. npm install typescript ts-node @types/node   
+   -> typescript: Lets you write TypeScript code.
+ts-node: Lets you run TypeScript code without manually compiling it.
+@types/node: Provides TypeScript types for Node.js, helping with type checking and autocompletion
+   ->it will create some new things in the project
+node_modules: Stores the installed dependencies so your project can use them.
+package-lock.json: Ensures that everyone working on the project uses the same package versions, avoiding inconsistencies.
+package.json: Keeps track of what packages your project uses and manages the project's scripts, dependencies, etc.
+
+5. tsc --init
+In short, tsc --init generates a tsconfig.json file that configures how TypeScript works in your project.
+
+6. npm install @supabase/supabase-js
+-> Running npm install @supabase/supabase-js sets up the Supabase JavaScript client, which you can use to interact with your Supabase project (database, authentication, etc.) from your app
+-> allows you to interact with Supabase from your front-end or Node.js applications.
+
+7. New-Item -ItemType File sample.ts
+The command New-Item -ItemType File sample.ts is a PowerShell command that creates a new TypeScript file named sample.ts.
+or
+you can do it manually by creating new file with .ts extension in the project
+
+8. npx ts-node sample.ts
+The command npx ts-node sample.ts is used to run a TypeScript file (sample.ts) directly without needing to compile it first.

@@ -1,0 +1,38 @@
+DENO:
+------
+Deno is a secure, modern runtime for JavaScript and TypeScript that comes with built-in TypeScript support,
+a standard library, and no dependency on npm.
+
+Node:
+-----
+Node.js is a JavaScript runtime that enables server-side execution of JavaScript, powered by the V8 engine, 
+and includes npm for package management.
+
+Advantages of deno:
+-------------------
+Unlike Node.js, which requires extra tools like TypeScript compilers or Babel for TypeScript, Deno has built-in support for TypeScript. You can run TypeScript code directly without needing any extra configuration.
+1. do not need to install TypeScript separately to use Deno. Deno has TypeScript support built-in.
+2. Security by Default: Deno runs code in a sandboxed environment, requiring explicit permissions to access files, network, or environment variables (e.g., --allow-net, --allow-read).
+3. Modern Features: Supports modern JavaScript features like ES modules (import/export) and top-level await natively.
+4. No npm Dependency: Deno fetches and caches dependencies directly from URLs, avoiding a centralized package manager like npm.
+5. the seperate js file will not be generated for exceution as javascript file which is mandatory in node.js as we run the .ts file using tsc command it will create a sepearate file for it in javascript which we have to exceute to get result. DENO eliminates this process it will run the typescript files directly with only one command
+
+
+Installing DENO and running typescript files using DENO:
+--------------------------------------------------------
+1. install deno :
+For Windows:
+Using PowerShell: Open PowerShell and run:
+
+iwr https://deno.land/x/install/install.ps1 -useb | iex
+
+
+2. check installed or not
+deno --version
+
+3. Run your files:
+-> create a file using .ts extension and write your logic
+-> save and run this command [ deno run filename.ts ] for typescript and [ deno run filename.js ] if we want to run javascript files
+-> it will not create a .js file like node (which we have to run to get output ) it directly gives the output.
+DENO eliminates the process of creating the .ts files 
+
