@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>To-Do List</title>
+  <script src="src/todo.js"></script>
+</head>
+
+<body>
+  <center>
+    <h1>To-Do List</h1>
+
+    <!-- Task Input Section -->
+    <div>
+      <label for="todoInput">Enter a new task:</label><br>
+      <input type="text" id="todoInput" placeholder="Task name..." required />
+      <button onclick="addTask()">Add Task</button>
+    </div>
+
+    <!-- Task List Section -->
+    <h2>Your Task List</h2>
+    <table border="1" cellpadding="5" cellspacing="0">
+      <thead>
+        <tr>
+          <th>Task</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="todoList">
+        <tr id="noTaskRow">
+          <td colspan="2">No Task In Your List</td>
+        </tr>
+      </tbody>
+    </table>
+  </center>
+</body>
+
+</html>
